@@ -3,125 +3,146 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-public class BeadBlinker : MonoBehaviour
+namespace BeadManager
 {
-    public TMP_Dropdown BeadSelectDropdown;
-    public Slider BeadBlinkSpeedSlider;
-    public Button ToggleBlinkButton;
-
-    public GameObject redBead;
-    public GameObject yellowBead;
-    public GameObject greenBead;
-    GameObject bead;
-
-    private Material beadMaterial; // Reference to the bead material  
-    private Color originalColor; // Original color of the bead  
-    private Coroutine blinkingCoroutine; // Coroutine for blinking 
-
-    private bool isBlinking = false;
-    private float blinkSpeed;
-    private float targetBlinkSpeed = 0.5f;
-    private float currentBlinkSpeed = 0.5f; // Start with the default blink speed  
-
-    void Start()
+    [RequireComponent(typeof(BeadProperties))]
+    public class BeadBlinker : MonoBehaviour
     {
-        // Initialize with the first bead
-        blinkSpeed = BeadBlinkSpeedSlider.value;
-        bead = redBead;
-        ChooseBead();
-        UpdateMaterial();
+        [SerializeField] private TMP_Dropdown BeadSelectDropdown;
+        [SerializeField] private Slider BeadBlinkSpeedSlider;
+        [SerializeField] private Button ToggleBlinkButton;
 
-        // Attach the OnValueChanged listener to the slider
-        BeadBlinkSpeedSlider.onValueChanged.AddListener(OnBlinkSpeedChanged);
-    }
+        private GameObject bead;
+        private BeadProperties bP;
 
+        private Material beadMaterial; // Reference to the bead material  
+        private Color originalColor; // Original color of the bead  
+        private Coroutine blinkingCoroutine; // Coroutine for blinking 
 
-    public void ChooseBead()
-    {
-        switch (BeadSelectDropdown.value)
+        private bool isBlinking = false;
+        private float targetBlinkSpeed;
+        private float currentBlinkSpeed;
+
+        void Start()
         {
-            case 0:
-                bead = redBead;
-                break;
-            case 1:
-                bead = yellowBead;
-                break;
-            case 2:
-                bead = greenBead;
-                break;
+            // Get the BeadProperties component attached to this GameObject  
+            bP = GetComponent<BeadProperties>();
+
+            // Initial setup for the bead  
+            currentBlinkSpeed = BeadBlinkSpeedSlider.value;
+            targetBlinkSpeed = BeadBlinkSpeedSlider.value;
+            bead = bP.RedBead;
+            ChooseBead();
+            UpdateMaterial();
+
+            // Attach the OnValueChanged listener to the slider
+            BeadBlinkSpeedSlider.onValueChanged.AddListener(OnBlinkSpeedChanged);
         }
-        // Update the material and original color based on the selected bead
-        Debug.Log($"Selected Bead: {bead.name}"); // Log the selected bead  
-        UpdateMaterial();
-    }
 
-    private void UpdateMaterial()
-    {
-        beadMaterial = bead.GetComponent<Renderer>().material;
-        originalColor = beadMaterial.color;
-    }
-
-    public void BlinkControl()
-    {
-        if (isBlinking == false)
+        public void ChooseBead()
         {
-            StartBlinking(targetBlinkSpeed);
-            isBlinking = true;
-            Debug.Log(targetBlinkSpeed);
-        }
-        else
-        {
+            // Stop any ongoing blinking before changing the bead  
             StopBlinking();
-            isBlinking = false;
+
+            // Choose the bead based on dropdown selection using BeadProperties  
+            switch (BeadSelectDropdown.value)
+            {
+                case 0:
+                    bead = bP.RedBead;
+                    break;
+                case 1:
+                    bead = bP.YellowBead;
+                    break;
+                case 2:
+                    bead = bP.GreenBead;
+                    break;
+                default:
+                    Debug.LogWarning("Invalid bead selection.");
+                    return;
+            }
+
+            // Update the material and original color based on the selected bead
+            Debug.Log($"Selected Bead: {bead.name}"); // Log the selected bead  
+            UpdateMaterial();
         }
-    }
 
-    private void OnBlinkSpeedChanged(float newSpeed)
-    {
-        targetBlinkSpeed = newSpeed; // Set the target speed  
-        // If blinking is active, update the current speed smoothly  
-        if (isBlinking)
+        private void UpdateMaterial()
         {
-            // Optional: Slow down transitions  
-            currentBlinkSpeed = Mathf.Lerp(currentBlinkSpeed, targetBlinkSpeed, Time.deltaTime);
+            if (bead != null)
+            {
+                beadMaterial = bead.GetComponent<Renderer>().material;
+                originalColor = beadMaterial.color;
+            }
         }
-    }
 
-    private void StartBlinking(float blinkSpeed)
-    {
-        if (blinkingCoroutine != null)
+        public void BlinkControl()
         {
-            StopCoroutine(blinkingCoroutine); // Stop previous blinking  
+            if (isBlinking == false)
+            {
+                StartBlinking();
+                Debug.Log(targetBlinkSpeed);
+            }
+            else
+            {
+                StopBlinking();
+            }
         }
-        blinkingCoroutine = StartCoroutine(Blink(blinkSpeed));
-    }
 
-    private IEnumerator Blink(float speed)
-    {
-        float elapsedTime = 0f;
-
-        while (true)
+        private void OnBlinkSpeedChanged(float newSpeed)
         {
-            // Smoothly transition to target speed  
-            currentBlinkSpeed = Mathf.Lerp(currentBlinkSpeed, targetBlinkSpeed, Time.deltaTime * 5f); // Adjust 5f for speed of transition  
-            elapsedTime += Time.deltaTime * currentBlinkSpeed;
-
-            // Oscillate between original and brighter color  
-            float lerpValue = Mathf.PingPong(elapsedTime, 1f);
-            beadMaterial.color = Color.Lerp(originalColor, Color.white, lerpValue);
-
-            yield return null; // Wait for the next frame  
+            targetBlinkSpeed = newSpeed; // Set the target speed  
+            
+            // If blinking is active, update the current speed smoothly  
+            if (isBlinking)
+            {
+                // Smoothly transition to new blinking speed   
+                currentBlinkSpeed = Mathf.Lerp(currentBlinkSpeed, targetBlinkSpeed, Time.deltaTime);
+            }
         }
-    }
 
-
-    private void StopBlinking()
-    {
-        if (blinkingCoroutine != null)
+        private void StartBlinking()
         {
-            StopCoroutine(blinkingCoroutine);
-            beadMaterial.color = originalColor; // Reset to original color  
+            if (blinkingCoroutine != null)
+            {
+                StopCoroutine(blinkingCoroutine); // Stop previous blinking  
+            }
+
+            if (bead == null || !bead.activeInHierarchy) // Check if the bead is still valid  
+            {
+                Debug.LogWarning("Selected bead is not valid for blinking.");
+                return;
+            }
+
+            blinkingCoroutine = StartCoroutine(Blink());
+            isBlinking = true;
+        }
+
+        private IEnumerator Blink()
+        {
+            float elapsedTime = 0f;
+
+            while (true)
+            {
+                // Smoothly transition to target speed  
+                currentBlinkSpeed = Mathf.Lerp(currentBlinkSpeed, targetBlinkSpeed, Time.deltaTime * 5f); // Adjust 5f for speed of transition  
+                elapsedTime += Time.deltaTime * currentBlinkSpeed;
+
+                // Oscillate between original and brighter color  
+                float lerpValue = Mathf.PingPong(elapsedTime, 1f);
+                beadMaterial.color = Color.Lerp(originalColor, Color.white, lerpValue);
+
+                yield return null; // Wait for the next frame  
+            }
+        }
+
+        private void StopBlinking()
+        {
+            if (blinkingCoroutine != null)
+            {
+                StopCoroutine(blinkingCoroutine);
+                beadMaterial.color = originalColor; // Reset to original color  
+                isBlinking = false;
+            }
         }
     }
 }
