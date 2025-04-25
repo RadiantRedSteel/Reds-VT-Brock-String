@@ -1,0 +1,38 @@
+{
+  "information": [
+    {
+      "key": "About the Brock String",
+      "value": "This game features the Brock String exercise, a prominent activity used in vision therapy to enhance binocular vision and eye coordination. The exercise utilizes a simple tool - a string with colored beads - that helps users learn to focus on objects at varying distances. The process involves holding one end of the string at the tip of the nose while the other end is secured. By shifting focus between the beads, individuals train their eyes to work together, improving skills like convergence."
+    },
+    {
+      "key": "Binocular Vision Dysfunction",
+      "value": "Many individuals, including myself, struggle with <b><u>Binocular Vision Dysfunction (BVD)</u></b>, a condition characterized by the inability to coordinate both eyes when focusing on an object. This can cause various visual issues, such as:\n\n   \u2022\tDouble Vision: Seeing two images of one object.\n   \u2022\tBlurred Vision: Difficulty in maintaining clear vision\n   \u2022\tSuppression: The brain ignoring visual signals from one eye\n   \u2022\tAttention Deficits: Challenges in focusing from eye stress"
+    },
+    {
+      "key": "Instructions",
+      "value": "By engaging in the Brock String exercise, users can work on improving binocular vision, eye teaming, and overall eye coordination at different distances. The goal is to create a natural, supportive environment for visual development, helping users overcome challenges associated with BVD.\n\nIncorporating digital features into this therapy offers innovative ways to assist users where traditional methods may fall short, making the process more appealing and accessible."
+    },
+    {
+      "key": "Credits",
+      "value": "This game was made with the help of the South Tulsa Vision Development Center! It was with their help that I was able to greatly improve my own binocular vision."
+    }
+  ],
+  "instructions": [
+    {
+      "key": "Step One",
+      "value": "<b>1. Position:</b> Stand or sit comfortably so you can look at the string. Imagine the string is being held to your nose.\n\nExplore the options menu to customize the position of the beads to best fit your needs. There are also settings to change the background color, and to remove the floor. The 'Save' and 'Load' buttons can be used to save your changes."
+    },
+    {
+      "key": "Step Two",
+      "value": "<b>2. Focus:</b> With both eyes, look at the bead closest to you. Make sure it is the only bead in focus. If you are having difficulty, try enabling the blink feature to help your eyes track to it. You can also try rubbing your temples, standing, closing your eyes for a few seconds, or revisiting the options menu.\n\nFocus on the bead for 10 seconds. Keep note of what you saw when attempting the exercise. Later on, I will tell you what you should be seeing, but for now just try your best."
+    },
+    {
+      "key": "Step Three",
+      "value": "<b>3: Tips for Success:</b> Take Breaks: If you're feeling fatigued or distracted, take a short break and then resume the exercise to keep it enjoyable. You do not want to overwork your eyes!\n\nIf your eyes are refusing to cooperate, keep attempting different ways to get them to wake up. For instance, my eyes prefer motion, so perhaps you could try sliding the beads around before your next attempt."
+    },
+    {
+      "key": "Step Four",
+      "value": "<b>4: What to Expect (Spoilers!):</b> If you are properly focusing on the first bead (and nothing else!) you will see two strings converging at the bead. The bead will be single, and behind it you may see the string split again, with the beads behind it doubling. This effect is similar with the middle and farthest bead."
+    }
+  ]
+}

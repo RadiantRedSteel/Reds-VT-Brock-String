@@ -4,12 +4,11 @@ namespace BeadManager
 {
     public class BackgroundController : MonoBehaviour
     {
-        private Camera mainCamera;
-        public FlexibleColorPicker fcp;
+        [SerializeField] private Camera mainCamera;
+        [SerializeField] private FlexibleColorPicker fcp;
 
         void Start()
         {
-            mainCamera = GameObject.FindAnyObjectByType<Camera>();
             fcp.color = mainCamera.backgroundColor;
             fcp.onColorChange.AddListener(OnFCPColorChanged);
         }
@@ -22,7 +21,9 @@ namespace BeadManager
         public void SyncBackgroundColor()
         {
             // This is to ensure that upon loading color settings that fcp is also updated
+            // TODO: This doesn't work - only loading the scene again seems to set the starting color properly
             fcp.color = mainCamera.backgroundColor;
+            fcp.SetColor(mainCamera.backgroundColor);
         }
     }
 }

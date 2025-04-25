@@ -1,17 +1,22 @@
 using BeadManager;
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
 
 public class LocalStorageSettings : MonoBehaviour
 {
     private BeadProperties bP;
     private GameObject floor;
-    
+    // TODO: Combine functionality with BeadPositionController
+    [SerializeField] private Slider redSlider;
+    [SerializeField] private Slider yellowSlider;
+    [SerializeField] private Slider greenSlider;
+
     void Start()
     {
         bP = GetComponent<BeadProperties>();
         floor = GameObject.Find("Floor");
-        //LoadLocalSettings(); // Load settings on start  
+        LoadLocalSettings(); // Load settings on start  
     }
 
     public void SaveLocalSettings()
@@ -21,7 +26,6 @@ public class LocalStorageSettings : MonoBehaviour
         // Save skybox color
         // Save floor game state (active or disabled)
         // Save blink speed
-        // Save
 
         PlayerSettings settings = new PlayerSettings
         {
@@ -53,21 +57,28 @@ public class LocalStorageSettings : MonoBehaviour
             {
                 // Load saved settings safely  
                 if (bP.RedBead != null)
+                {
                     bP.RedBead.transform.localPosition = settings.redBeadPosition;
+                    redSlider.value = bP.RedBead.transform.localPosition.y;
+                }
                 if (bP.YellowBead != null)
+                { 
                     bP.YellowBead.transform.localPosition = settings.yellowBeadPosition;
+                    yellowSlider.value = bP.YellowBead.transform.localPosition.y;
+                }
                 if (bP.GreenBead != null)
+                {
                     bP.GreenBead.transform.localPosition = settings.greenBeadPosition;
+                    greenSlider.value = bP.GreenBead.transform.localPosition.y;
+                }
 
                 if (Camera.main != null)
                 {
-                    Camera.main.backgroundColor = settings.skyboxColor; // Adjust as needed
+                    Camera.main.backgroundColor = settings.skyboxColor;
                 }
                 
                 if (floor != null)
                     floor.SetActive(settings.isFloorActive);
-
-                Debug.Log(settings.isFloorActive);
 
                 //FindObjectOfType<BeadBlinker>()?.SetBlinkSpeed(settings.blinkSpeed); // Assuming you have a method to set the blink speed
             }

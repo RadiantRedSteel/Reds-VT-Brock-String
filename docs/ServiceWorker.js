@@ -1,9 +1,9 @@
 const cacheName = "Red's VT-Red's VT Brock String-0.1.0";
 const contentToCache = [
-    "Build/Webbuild.loader.js",
-    "Build/Webbuild.framework.js",
-    "Build/Webbuild.data",
-    "Build/Webbuild.wasm",
+    "Build/docs.loader.js",
+    "Build/docs.framework.js",
+    "Build/docs.data",
+    "Build/docs.wasm",
     "TemplateData/style.css"
 
 ];
